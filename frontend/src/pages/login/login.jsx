@@ -1,13 +1,29 @@
 import React from "react";
 import { Form, Button } from "react-bootstrap";
 import "./login.scss";
+import axios from "axios";
+import { URLS } from "../../global/urls";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "../../global/key";
 
 function Login({ setLoggedIn }) {
   const handleLogin = (e) => {
     e.preventDefault();
     const formdata = new FormData(e.target);
     const dataObj = Object.fromEntries(formdata);
-    console.log(dataObj);
+    axios
+      .post(URLS.login, {
+        email: dataObj.email,
+        password: dataObj.password,
+      })
+      .then((res) => {
+        console.log("response login", res.data);
+        localStorage.setItem(REFRESH_TOKEN, res.data.data.refreshToken);
+        sessionStorage.setItem(ACCESS_TOKEN, res.data.data.accessToken);
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        console.log("error in login", err);
+      });
   };
 
   return (

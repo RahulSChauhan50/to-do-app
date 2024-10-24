@@ -2,7 +2,7 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require("./key");
 const jwt = require("jsonwebtoken");
 
 function generateAccessToken(data) {
-  return jwt.sign(data, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
+  return jwt.sign(data, ACCESS_TOKEN_SECRET, { expiresIn: "24h" });
 }
 
 function generateRefreshToken(data) {
@@ -36,7 +36,7 @@ const verifyRefreshToken = (token) => {
     const accessToken = generateAccessToken({ email: user.email });
     return accessToken;
   } catch (error) {
-    console.log(error);
+    console.log("error in verifying signature", error);
     return false;
   }
 };

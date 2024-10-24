@@ -15,7 +15,7 @@ router.post("/login", async (req, res) => {
     if (
       !email ||
       email.trim().length == 0 ||
-      password ||
+      !password ||
       password.trim().length == 0
     ) {
       return res.status(400).json({
@@ -75,6 +75,12 @@ router.post("/refresh", async (req, res) => {
     }
 
     const accessToken = verifyRefreshToken(refreshToken);
+    if (!accessToken) {
+      return res.status(403).json({
+        status: false,
+        message: "refresh token not valid",
+      });
+    }
 
     return res.status(201).json({
       status: true,

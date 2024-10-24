@@ -2,13 +2,15 @@ const express = require("express");
 const { PORT } = require("./key");
 const mongoose = require("mongoose");
 const baseRouter = require("./routes/index");
+const cors = require("cors");
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.use(express.static("../frontend/build"));
-app.use("api/v1", baseRouter);
+app.use("/api/v1", baseRouter);
 
 mongoose
   .connect("mongodb://localhost:27017/to-do-db", {
