@@ -1,16 +1,16 @@
 const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require("./key");
 const jwt = require("jsonwebtoken");
 
-export function generateAccessToken(data) {
+function generateAccessToken(data) {
   return jwt.sign(data, ACCESS_TOKEN_SECRET, { expiresIn: "15m" });
 }
 
-export function generateRefreshToken(data) {
+function generateRefreshToken(data) {
   const refreshToken = jwt.sign(data, REFRESH_TOKEN_SECRET);
   return refreshToken;
 }
 
-export const authentication = async (req, res, next) => {
+const authentication = async (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
 
@@ -29,7 +29,7 @@ export const authentication = async (req, res, next) => {
   });
 };
 
-export const verifyRefreshToken = (token) => {
+const verifyRefreshToken = (token) => {
   try {
     const user = jwt.verify(token, REFRESH_TOKEN_SECRET);
 
@@ -39,4 +39,11 @@ export const verifyRefreshToken = (token) => {
     console.log(error);
     return false;
   }
+};
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+  authentication,
+  verifyRefreshToken,
 };

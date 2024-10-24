@@ -62,3 +62,5 @@ router.put("/tasks", authentication, async (req, res) => {
     });
   }
 });
+
+module.exports = router;
