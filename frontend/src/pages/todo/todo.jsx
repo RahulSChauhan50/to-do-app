@@ -28,7 +28,7 @@ function Todo({ setLoggedIn }) {
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
-            "Content-Type": "application/json", // Optional, specify the content type if needed
+            "Content-Type": "application/json",
           },
         }
       )
@@ -54,7 +54,7 @@ function Todo({ setLoggedIn }) {
         {
           headers: {
             Authorization: `Bearer ${access_token}`,
-            "Content-Type": "application/json", // Optional, specify the content type if needed
+            "Content-Type": "application/json",
           },
         }
       )
@@ -64,6 +64,29 @@ function Todo({ setLoggedIn }) {
       })
       .catch((err) => {
         console.log("error in changing task status", err);
+      });
+  };
+
+  const handleDelete = (id) => {
+    const access_token = sessionStorage.getItem(ACCESS_TOKEN);
+    console.log(id, access_token);
+
+    axios
+      .delete(URLS.deleteTask, {
+        data: {
+          taskId: id,
+        },
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("task deleted successfully", res.data);
+        fetchTasks();
+      })
+      .catch((err) => {
+        console.log("error in deleting task", err);
       });
   };
 
@@ -87,7 +110,7 @@ function Todo({ setLoggedIn }) {
   useEffect(() => {
     fetchTasks();
   }, []);
-  console.log(pendingTasks, completedTasks);
+
   return (
     <div className="todo-container">
       <div className="navbar-container">
@@ -120,6 +143,7 @@ function Todo({ setLoggedIn }) {
                 data={item}
                 key={item._id}
                 changeStatus={changeStatus}
+                onDelete={handleDelete}
               />
             ))}
           </div>
@@ -132,6 +156,7 @@ function Todo({ setLoggedIn }) {
                 data={item}
                 key={item._id}
                 changeStatus={changeStatus}
+                onDelete={handleDelete}
               />
             ))}
           </div>

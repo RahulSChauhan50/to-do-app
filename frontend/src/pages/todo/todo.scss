@@ -49,10 +49,26 @@
           border-radius: 5px;
           margin: 10px;
           padding: 10px;
-          .name {
-            font-weight: 500;
-            color: #000;
-            font-size: large;
+          .name-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .name {
+              font-weight: 500;
+              color: #000;
+              font-size: large;
+            }
+            .delete {
+              color: #fff;
+              background-color: red;
+              opacity: 1;
+              padding: 0px;
+              margin: 0px;
+              border: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            }
           }
           .description {
             font-weight: 500;
